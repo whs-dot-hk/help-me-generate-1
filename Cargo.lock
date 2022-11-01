@@ -809,6 +809,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "help-me-generate-1"
+version = "0.1.0"
+dependencies = [
+ "aws-config",
+ "aws-sdk-secretsmanager",
+ "aws-sdk-sns",
+ "aws_lambda_events",
+ "headers",
+ "hyper",
+ "hyper-tls",
+ "lambda_runtime",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
 name = "hermit-abi"
 version = "0.1.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1342,22 +1358,6 @@ dependencies = [
  "untrusted",
  "web-sys",
  "winapi",
-]
-
-[[package]]
-name = "rust-lambda-cloudtrail"
-version = "0.1.0"
-dependencies = [
- "aws-config",
- "aws-sdk-secretsmanager",
- "aws-sdk-sns",
- "aws_lambda_events",
- "headers",
- "hyper",
- "hyper-tls",
- "lambda_runtime",
- "serde_json",
- "tokio",
 ]
 
 [[package]]

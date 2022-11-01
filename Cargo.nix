@@ -4,7 +4,7 @@
 args@{
   release ? true,
   rootFeatures ? [
-    "rust-lambda-cloudtrail/default"
+    "help-me-generate-1/default"
   ],
   rustPackages,
   buildRustPackages,
@@ -23,7 +23,7 @@ args@{
   ignoreLockHash,
 }:
 let
-  nixifiedLockHash = "59212716b30e9180d7dc2365d827c99970ec3377ca5c6c3c4bbf20119d10ddbc";
+  nixifiedLockHash = "cf7adf52a0fb0c6e3a3d59f4ec439a58e196e11592a6f4cb3af562f584f57d1a";
   workspaceSrc = if args.workspaceSrc == null then ./. else args.workspaceSrc;
   currentLockHash = builtins.hashFile "sha256" (workspaceSrc + /Cargo.lock);
   lockHashIgnored = if ignoreLockHash
@@ -45,7 +45,7 @@ in
 {
   cargo2nixVersion = "0.11.0";
   workspace = {
-    rust-lambda-cloudtrail = rustPackages.unknown.rust-lambda-cloudtrail."0.1.0";
+    help-me-generate-1 = rustPackages.unknown.help-me-generate-1."0.1.0";
   };
   "registry+https://github.com/rust-lang/crates.io-index".adler."1.0.2" = overridableMkRustCrate (profileName: rec {
     name = "adler";
@@ -1142,6 +1142,25 @@ in
     };
   });
   
+  "unknown".help-me-generate-1."0.1.0" = overridableMkRustCrate (profileName: rec {
+    name = "help-me-generate-1";
+    version = "0.1.0";
+    registry = "unknown";
+    src = fetchCrateLocal workspaceSrc;
+    dependencies = {
+      aws_config = (rustPackages."registry+https://github.com/rust-lang/crates.io-index".aws-config."0.49.0" { inherit profileName; }).out;
+      aws_sdk_secretsmanager = (rustPackages."registry+https://github.com/rust-lang/crates.io-index".aws-sdk-secretsmanager."0.19.0" { inherit profileName; }).out;
+      aws_sdk_sns = (rustPackages."registry+https://github.com/rust-lang/crates.io-index".aws-sdk-sns."0.19.0" { inherit profileName; }).out;
+      aws_lambda_events = (rustPackages."registry+https://github.com/rust-lang/crates.io-index".aws_lambda_events."0.7.2" { inherit profileName; }).out;
+      headers = (rustPackages."registry+https://github.com/rust-lang/crates.io-index".headers."0.3.8" { inherit profileName; }).out;
+      hyper = (rustPackages."registry+https://github.com/rust-lang/crates.io-index".hyper."0.14.20" { inherit profileName; }).out;
+      hyper_tls = (rustPackages."registry+https://github.com/rust-lang/crates.io-index".hyper-tls."0.5.0" { inherit profileName; }).out;
+      lambda_runtime = (rustPackages."registry+https://github.com/rust-lang/crates.io-index".lambda_runtime."0.6.1" { inherit profileName; }).out;
+      serde_json = (rustPackages."registry+https://github.com/rust-lang/crates.io-index".serde_json."1.0.87" { inherit profileName; }).out;
+      tokio = (rustPackages."registry+https://github.com/rust-lang/crates.io-index".tokio."1.21.2" { inherit profileName; }).out;
+    };
+  });
+  
   "registry+https://github.com/rust-lang/crates.io-index".hermit-abi."0.1.19" = overridableMkRustCrate (profileName: rec {
     name = "hermit-abi";
     version = "0.1.19";
@@ -1878,25 +1897,6 @@ in
     };
     buildDependencies = {
       cc = (buildRustPackages."registry+https://github.com/rust-lang/crates.io-index".cc."1.0.74" { profileName = "__noProfile"; }).out;
-    };
-  });
-  
-  "unknown".rust-lambda-cloudtrail."0.1.0" = overridableMkRustCrate (profileName: rec {
-    name = "rust-lambda-cloudtrail";
-    version = "0.1.0";
-    registry = "unknown";
-    src = fetchCrateLocal workspaceSrc;
-    dependencies = {
-      aws_config = (rustPackages."registry+https://github.com/rust-lang/crates.io-index".aws-config."0.49.0" { inherit profileName; }).out;
-      aws_sdk_secretsmanager = (rustPackages."registry+https://github.com/rust-lang/crates.io-index".aws-sdk-secretsmanager."0.19.0" { inherit profileName; }).out;
-      aws_sdk_sns = (rustPackages."registry+https://github.com/rust-lang/crates.io-index".aws-sdk-sns."0.19.0" { inherit profileName; }).out;
-      aws_lambda_events = (rustPackages."registry+https://github.com/rust-lang/crates.io-index".aws_lambda_events."0.7.2" { inherit profileName; }).out;
-      headers = (rustPackages."registry+https://github.com/rust-lang/crates.io-index".headers."0.3.8" { inherit profileName; }).out;
-      hyper = (rustPackages."registry+https://github.com/rust-lang/crates.io-index".hyper."0.14.20" { inherit profileName; }).out;
-      hyper_tls = (rustPackages."registry+https://github.com/rust-lang/crates.io-index".hyper-tls."0.5.0" { inherit profileName; }).out;
-      lambda_runtime = (rustPackages."registry+https://github.com/rust-lang/crates.io-index".lambda_runtime."0.6.1" { inherit profileName; }).out;
-      serde_json = (rustPackages."registry+https://github.com/rust-lang/crates.io-index".serde_json."1.0.87" { inherit profileName; }).out;
-      tokio = (rustPackages."registry+https://github.com/rust-lang/crates.io-index".tokio."1.21.2" { inherit profileName; }).out;
     };
   });
   
